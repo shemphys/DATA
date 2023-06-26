@@ -30,19 +30,16 @@ for city in cities:
 
         # Converting request into pandas dataframe
         data = response.json()
-        #print(data)
-        df = pd.DataFrame(data['results'])
+        
+        if 'results' in data:
+            df = pd.DataFrame(data['results'])
 
-        # Add current city to main dataframe
-        df_all = pd.concat([df_all, df])
-
+            # Add current city to main dataframe
+            df_all = pd.concat([df_all, df])
+        else:
+            print(f"No se encontraron resultados para la ciudad {city} y el parámetro {parameter}. Respuesta completa: {data}")
         # 5s pause to avoid API requests per time limits
         time.sleep(5)
 
-print(df.head())
+#print(df.head())
 df_all.to_json('air_quality_data.json', orient='records', lines=True)
-
-###############NOTES###############
-# hay que medir más niveles:
-# PM2.5, PM10, CO2, SO2, O3 y NO2
-# por ahora solo mido PM2.5
