@@ -1,6 +1,7 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
+from scipy.stats import zscore
 
 # Las modificaciones se hacen en el buffer, no en la base de datos original.
 
@@ -32,8 +33,24 @@ df['date'] = pd.to_datetime(df['date'])
 print(df.info())
 
 
+df.describe(include='all')
+
+#BOXPLOT
+# Asumiendo que 'df' es tu DataFrame y 'value' es la columna que quieres analizar
+sns.boxplot(x=df['value'])
+plt.show()
+
+#Z-SCORES
+# Calcula los z-scores
+df['value_zscore'] = zscore(df['value'])
+
+# Encuentra los valores atípicos
+outliers = df[abs(df['value_zscore']) > 3]
 
 
+
+# Cómo mostrar un gráfico
+'''
 # Suponiendo que "city_name" es el nombre de tu ciudad y "parameter" es tu parámetro de interés (como pm25, pm10, etc.)
 city_name = "New Delhi" 
 parameter = "pm25"
@@ -51,3 +68,4 @@ plt.xlabel('Fecha')
 plt.ylabel(f'Valor de {parameter}')
 
 plt.show()
+'''
